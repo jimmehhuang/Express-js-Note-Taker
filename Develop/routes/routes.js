@@ -1,7 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 
-const app = require("express").Router();
+const app = require('express').Router();
 
 fs.readFile("./Develop/db/db.json","utf8", (err, data) => {
     if (err) throw err;
@@ -21,24 +21,18 @@ fs.readFile("./Develop/db/db.json","utf8", (err, data) => {
         return console.log(`New note added: ${newNote.title}`);
     });
 
-    // Retrieves note with specified id
+    // Retrieves note with specified id*
     app.get('/api/notes/:id', function(req,res) {
+        // show array of notes and id's
         res.json(notes[req.params.id]);
     });
 
-    // deletes note with specified id (finish later)
-    app.delete('/api/notes/:id', function(req, res) {
-        notes.splice(req.params.id, 1);
-        updateDb();
-        console.log(`Deleted note with id: ${req.params.id}`);
-    });
-
-    // display notes.html when /notes is accessed
+    // display notes.html
     app.get('/notes', function(req,res) {
         res.sendFile(path.join(__dirname, "../public/notes.html"));
     });
         
-    // display index.html otherwise
+    // display index.html
     app.get('*', function(req,res) {
         res.sendFile(path.join(__dirname, "../public/index.html"));
     });
